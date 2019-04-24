@@ -1,6 +1,7 @@
 class Song < ActiveRecord::Base
   belongs_to :artist
   belongs_to :genre
+  has_many :notes
 
   def artist_name=(name)
     self.artist = Artist.find_or_create_by(name: name)
@@ -10,13 +11,22 @@ class Song < ActiveRecord::Base
     (self.artist) ? self.artist.name : nil
   end
 
-  def genre_id=(name)
-    self.genre = Genre.find_or_create_by(name: name)
+  def note_contents=(array)
+    array.each do |content|
+      self.notes.build(content: content) unless content.empty?
+    end
   end
 
-  def genre_id
-    (self.genre) ? self.genre.name : nil
+  def note_contents
+    (self.notes) ? self.notes.map(&:content) : nil
   end
 
+  def genre_name=(name)
+    self.genre = Genre.find_by_name(name)
+  end
+
+  def genre_name
+    self.genre.name
+  end
 
 end
