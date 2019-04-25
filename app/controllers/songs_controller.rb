@@ -14,9 +14,8 @@ class SongsController < ApplicationController
   end
 
   def create
-    #byebug
-
-      #genre = Genre.find_or_create_by(name: params[:song][:genre_name])
+      genre = Genre.find_or_create_by(name: params[:song][:genre_name])
+      #byebug
       @song = Song.create(song_params)
       #@song.genre.name = genre
 
