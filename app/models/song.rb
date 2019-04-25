@@ -20,12 +20,14 @@ class Song < ActiveRecord::Base
   end
 
 
-  def note_ids=(ids)
-    ids.each do |id|
-      note = Note.find_by_id(id)
-      #byebug
-      self.notes << note
+  def note_contents=(note_contents)
+    note_contents.map do |note|
+      self.notes.build(content: note) unless note.empty?
     end
+  end
+
+  def note_contents
+    (self.notes) ? self.notes.map(&:content) : nil
   end
 
 
