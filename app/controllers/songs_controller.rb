@@ -1,4 +1,6 @@
 class SongsController < ApplicationController
+
+
   def index
     @songs = Song.all
   end
@@ -12,9 +14,14 @@ class SongsController < ApplicationController
   end
 
   def create
-    @song = Song.new(song_params)
+    #byebug
 
-    if @song.save
+      #genre = Genre.find_or_create_by(name: params[:song][:genre_name])
+      @song = Song.create(song_params)
+      #@song.genre.name = genre
+
+
+    if @song
       redirect_to @song
     else
       render :new
@@ -47,7 +54,6 @@ class SongsController < ApplicationController
   private
 
   def song_params
-    params.require(:song).permit(:title)
+    params.require(:song).permit(:title, :artist_name, :genre_id, note_ids:[])
   end
 end
-
