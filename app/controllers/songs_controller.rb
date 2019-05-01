@@ -1,3 +1,5 @@
+
+
 class SongsController < ApplicationController
   def index
     @songs = Song.all
@@ -12,9 +14,10 @@ class SongsController < ApplicationController
   end
 
   def create
+    #byebug
     @song = Song.new(song_params)
-
     if @song.save
+      flash[:notice] = "Song successfully created."
       redirect_to @song
     else
       render :new
@@ -27,10 +30,9 @@ class SongsController < ApplicationController
 
   def update
     @song = Song.find(params[:id])
-
     @song.update(song_params)
-
     if @song.save
+      flash[:notice] = "Song updated."
       redirect_to @song
     else
       render :edit
@@ -47,7 +49,7 @@ class SongsController < ApplicationController
   private
 
   def song_params
-    params.require(:song).permit(:title)
+    params.require(:song).permit(:title, :artist_name, :genre_id, note_contents [])
   end
-end
 
+end
